@@ -35,6 +35,8 @@ Then, you can add the `.wrap-left` or `.wrap-right` classes to your images, to m
 ![](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg){width=200 .wrap-left}
 ```
 
+The end product will look [like this](https://multimeric.github.io/Fwrappe/example.html)
+
 ## Advanced Config
 
 You can also customize the extension using the `fwrappe` metadata key in your documents.
@@ -50,6 +52,8 @@ fwrappe:
 ---
 ```
 
+[Here's an example of this obscenely large margin](https://multimeric.github.io/Fwrappe/margin.html)
+
 ### `auto`
 
 Setting `auto` to `left` or `right` will automatically make all figures text wrap in the specified direction:
@@ -61,4 +65,4 @@ fwrappe:
 ---
 ```
 You can disable this selectively by adding a `.nowrap` class to some images.
-
+This is demonstrated [in the following example](https://multimeric.github.io/Fwrappe/example.html).
