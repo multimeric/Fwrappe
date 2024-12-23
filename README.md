@@ -35,6 +35,9 @@ Then, you can add the `.wrap-left` or `.wrap-right` classes to your images, to m
 ![](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg){width=200 .wrap-left}
 ```
 
+`.wrap-left` means "the figure will sit on the left of the page, and the text will wrap around it to the right".
+This is a little confusing, I realise.
+
 The end product will look [like this](https://multimeric.github.io/Fwrappe/example.html).
 
 ## Advanced Config
