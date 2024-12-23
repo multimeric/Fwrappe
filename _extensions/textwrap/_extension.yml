@@ -1,0 +1,9 @@
+title: TextWrap
+author: Michael Milton
+version: 1.0.0
+quarto-required: ">=1.6.0"
+contributes:
+  filters:
+    - textwrap.lua
+    - autowrap_left.lua
+    - autowrap_right.lua

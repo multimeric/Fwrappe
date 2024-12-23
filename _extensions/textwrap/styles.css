@@ -1,0 +1,8 @@
+.quarto-figure.wrap-left {
+    float: left;
+    margin: 34px;
+}
+.quarto-figure.wrap-right {
+    float: right;
+    margin: 34px;
+}
