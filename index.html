@@ -133,6 +133,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./margin.html"> 
 <span class="menu-text">Custom Margin Example</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./complex_margin.html"> 
+<span class="menu-text">Complex Margin Example</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -176,6 +180,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="kw">-</span><span class="at"> fwrappe</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Then, you can add the <code>.wrap-left</code> or <code>.wrap-right</code> classes to your images, to make text wrap around them.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode md code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="al">![](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg)</span>{width=200 .wrap-left}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>.wrap-left</code> means “the figure will sit on the left of the page, and the text will wrap around it to the right”. This is a little confusing, I realise.</p>
 <p>The end product will look <a href="https://multimeric.github.io/Fwrappe/example.html">like this</a>.</p>
 </section>
 <section id="advanced-config" class="level2">
@@ -189,6 +194,12 @@ fwrappe:
   margin: "200px"
 ---</code></pre>
 <p><a href="https://multimeric.github.io/Fwrappe/margin.html">Here’s an example of this obscenely large margin</a>.</p>
+<p>You can also customize different parts of the margin <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/margin#syntax">according to the CSS spec</a>:</p>
+<blockquote class="blockquote">
+<p>When one value is specified, it applies the same margin to all four sides. When two values are specified, the first margin applies to the top and bottom, the second to the left and right. When three values are specified, the first margin applies to the top, the second to the right and left, the third to the bottom. When four values are specified, the margins apply to the top, right, bottom, and left in that order (clockwise).</p>
+</blockquote>
+<p>So <code>margin: "0px 10px 20px 30px"</code> will set the top, right, bottom and left margin sizes to 0, 10, 20 and 30 pixels respectively.</p>
+<p><a href="https://multimeric.github.io/Fwrappe/complex_margin.html">Here’s an example where the bottom and right margins are wide, but the top and left margins are zero</a>.</p>
 </section>
 <section id="auto" class="level3">
 <h3 class="anchored" data-anchor-id="auto"><code>auto</code></h3>
