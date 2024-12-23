@@ -8,4 +8,5 @@ website:
       - example.qmd
       - autowrap.qmd
       - margin.qmd
+      - complex_margin.qmd
 

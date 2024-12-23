@@ -1,0 +1,22 @@
+---
+title: "Complex Margin Example"
+fwrappe:
+  margin: "0px 100px 100px 0px"
+filters:
+  - quarto
+  - fwrappe
+---
+
+{{< lipsum 1 >}}
+
+![`.wrap-left`](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg){width=200 .wrap-left}
+
+{{< lipsum 1 >}}
+
+![`.wrap-right`](https://live.staticflickr.com/3116/2295096211_1c641c008e_b.jpg){width=200 .wrap-right}
+
+{{< lipsum 1 >}}
+
+![`.wrap-left`](https://upload.wikimedia.org/wikipedia/commons/9/93/Phaseolus_vulgaris_white_beans%2C_witte_boon.jpg){width=200 .wrap-left}
+
+{{< lipsum 1 >}}

@@ -75,7 +75,7 @@ end
 function simplify_meta(meta)
     local result = {}
     for i, v in pairs(meta or {}) do
-        result[i] = v[1].text
+        result[i] = pandoc.utils.stringify(v)
     end
     return result
 end
