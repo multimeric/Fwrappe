@@ -1,10 +1,10 @@
 ---
 title: "Custom Margin Example"
-textwrap:
+fwrappe:
   margin: "200px"
 filters:
   - quarto
-  - textwrap
+  - fwrappe
 ---
 
 {{< lipsum 1 >}}

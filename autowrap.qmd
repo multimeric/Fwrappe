@@ -1,10 +1,10 @@
 ---
 title: "Auto TextWrap Example"
-textwrap:
+fwrappe:
   auto: "left"
 filters:
   - quarto
-  - textwrap
+  - fwrappe
 ---
 
 {{< lipsum 1 >}}

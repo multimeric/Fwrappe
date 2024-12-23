@@ -16,7 +16,7 @@ STYLES = [[<style>
 
 -- Adds the stylesheet to enable text wrapping
 function Pandoc(doc)
-  local config = merge_tables(simplify_meta(doc.meta.textwrap), DEFAULT_CONFIG)
+  local config = merge_tables(simplify_meta(doc.meta.fwrappe), DEFAULT_CONFIG)
 
   local style_path = quarto.utils.resolve_path("styles.css")
   -- Customize the margin
@@ -74,7 +74,7 @@ end
 --- By default, each key in pandoc metadata is a table of pandoc elements.
 function simplify_meta(meta)
     local result = {}
-    for i, v in pairs(meta) do
+    for i, v in pairs(meta or {}) do
         result[i] = v[1].text
     end
     return result

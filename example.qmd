@@ -2,7 +2,7 @@
 title: "TextWrap Example"
 filters:
   - quarto
-  - textwrap
+  - fwrappe
 ---
 
 {{< lipsum 1 >}}
@@ -15,7 +15,7 @@ filters:
 
 {{< lipsum 1 >}}
 
-![.wrap-left`](https://upload.wikimedia.org/wikipedia/commons/9/93/Phaseolus_vulgaris_white_beans%2C_witte_boon.jpg){width=200 .wrap-left}
+![`.wrap-left`](https://upload.wikimedia.org/wikipedia/commons/9/93/Phaseolus_vulgaris_white_beans%2C_witte_boon.jpg){width=200 .wrap-left}
 
 {{< lipsum 1 >}}
 
