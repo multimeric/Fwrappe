@@ -66,7 +66,7 @@ You can also customize different parts of the margin [according to the CSS spec]
 
 So `margin: "0px 10px 20px 30px"` will set the top, right, bottom and left margin sizes to 0, 10, 20 and 30 pixels respectively.
 
-[Here's an example where the bottom and right margins are wide, but the top and left margins are zero](https://multimeric.github.io/Fwrappe/margin.html).
+[Here's an example where the bottom and right margins are wide, but the top and left margins are zero](https://multimeric.github.io/Fwrappe/complex_margin.html).
 
 ### `auto`
 
