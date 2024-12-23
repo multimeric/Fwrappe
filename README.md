@@ -35,7 +35,7 @@ Then, you can add the `.wrap-left` or `.wrap-right` classes to your images, to m
 ![](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg){width=200 .wrap-left}
 ```
 
-The end product will look [like this](https://multimeric.github.io/Fwrappe/example.html)
+The end product will look [like this](https://multimeric.github.io/Fwrappe/example.html).
 
 ## Advanced Config
 
@@ -52,7 +52,7 @@ fwrappe:
 ---
 ```
 
-[Here's an example of this obscenely large margin](https://multimeric.github.io/Fwrappe/margin.html)
+[Here's an example of this obscenely large margin](https://multimeric.github.io/Fwrappe/margin.html).
 
 ### `auto`
 
