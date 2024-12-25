@@ -13,10 +13,10 @@ However, people often request this feature:
 It is possible to use a manual solution as described in the above issues.
 The reason Fwrappe is a better option is because:
 
-- You don't need to use or learn CSS
+- Fwrappe supports both HTML and PDF formats
 - Fwrappe wraps entire figures instead of just images. This means that figure captions look correct
-- In the future, the same extension will be portable to other formats such as PDF, Word etc
 - Fwrappe provides an auto-wrap feature so you don't need to modify each figure
+- You don't need to use or learn CSS and/or LaTeX yourself
 
 ## Installing
 

@@ -1,7 +1,11 @@
 ---
 title: "Complex Margin Example"
 fwrappe:
-  margin: "0px 100px 100px 0px"
+  margin:
+    top: 0
+    right: 100
+    bottom: 100
+    left: 0
 filters:
   - quarto
   - fwrappe

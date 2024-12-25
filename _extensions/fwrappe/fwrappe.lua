@@ -1,27 +1,46 @@
 DEFAULT_CONFIG = {
   auto = false,
-  margin = "30px"
+  margin = {
+    top = 30,
+    right = 30,
+    bottom = 30,
+    left = 30
+  }
 }
 
 STYLES = [[<style>
+  .quarto-figure.wrap {
+      margin-top: %spt;
+      margin-right: %spt;
+      margin-bottom: %spt;
+      margin-left: %spt;
+  }
   .quarto-figure.wrap-left {
       float: left;
-      margin: %s;
   }
   .quarto-figure.wrap-right {
       float: right;
-      margin: %s;
   }
 </style>]]
 
 -- Adds the stylesheet to enable text wrapping
 function Pandoc(doc)
-  local config = merge_tables(simplify_meta(doc.meta.fwrappe), DEFAULT_CONFIG)
 
-  local style_path = quarto.utils.resolve_path("styles.css")
-  -- Customize the margin
-  local style = string.format(STYLES, config.margin, config.margin)
-  -- Add the styles to the document
+  local config = parse_config(doc.meta.fwrappe)
+
+  if quarto.doc.is_format("html") then
+    return handle_html(doc, config)
+  elseif quarto.doc.is_format("pdf") then
+    return handle_tex(doc, config)
+  else
+    -- No-op for other formats
+    return doc
+  end
+end
+
+function handle_html(doc, config)
+  -- Add custom CSS to the document
+  local style = string.format(STYLES, config.margin.top, config.margin.right, config.margin.bottom, config.margin.left)
   quarto.doc.include_text("in-header", style)
 
   -- Add the wrap class to images according to the auto parameter.
@@ -42,6 +61,7 @@ function Pandoc(doc)
   })
 
   -- Copy the wrap class from the image to the figure
+  -- This is the CSS that actually affects the layout
   doc = doc:walk({
     Div = function (fig)
       if fig.classes:includes("quarto-figure") then
@@ -57,8 +77,10 @@ function Pandoc(doc)
         })
 
         if wrap == "left" then
+          fig.classes:insert("wrap")
           fig.classes:insert("wrap-left")
         elseif wrap == "right" then
+          fig.classes:insert("wrap")
           fig.classes:insert("wrap-right")
         end
       end
@@ -70,12 +92,164 @@ function Pandoc(doc)
   return doc
 end
 
---- Takes a table from the pandoc metadata and simplifies it to a table of strings.
---- By default, each key in pandoc metadata is a table of pandoc elements.
+--- Finds a single Image nested within a given element
+function find_image(el)
+  local image = nil
+  el:walk({
+    Image = function (img)
+      -- Error if we find more than one image
+      if image ~= nil then
+        quarto.log.warning("Found more than one image in a figure, only the last will be used")
+      end
+      image = img
+    end
+  })
+  if image == nil then
+    error("No image found in figure")
+  end
+  return image
+end
+
+function handle_tex(doc, config)
+  quarto.doc.use_latex_package("wrapfig")
+  quarto.doc.use_latex_package("calc")
+
+  return doc:walk({
+    Div = function (div)
+      -- Find the first div that contains an image and a figure environment
+      if contains_element(div, function (el)
+        return el.t == "Image"
+      end) and contains_element(div, function(el)
+        return el.t == "RawBlock" and el.text:match("begin{figure}")
+      end) then
+
+      -- The first half of the content is a copy of the entire figure definition into a settowidth to measure its width
+      pre_content = pandoc.List({
+        pandoc.RawInline("latex", "\\newlength{\\imgwidth}"),
+        pandoc.RawInline("latex", "\\settowidth{\\imgwidth}{"),
+        find_image(div),
+        pandoc.RawInline("latex", "}")
+      }) 
+      -- ..  pandoc.utils.blocks_to_inlines(div.content):walk({
+      --     RawInline = function (raw)
+      --       -- Remove double newlines
+      --       raw.text = raw.text:gsub("%s+", " ")
+      --       raw.text = raw.text:gsub("%%", "")
+      --       if raw.format == "latex-merge" then
+      --         raw.format = "latex"
+      --       end
+      --         -- return pandoc.RawInline("latex-merge", block.text)
+      --       -- if raw.format == "latex" thenVeeu
+      --       --   raw.format = "latex-merge"
+      --       --   -- return pandoc.RawInline("latex-merge", block.text)
+      --       -- end
+      --       return raw
+      --     end,
+      --     LineBreak = function (linebreak)
+      --       -- Remove line breaks
+      --       return pandoc.List({})
+      --     end
+      --   }) .. pandoc.List({
+      --   pandoc.RawInline("latex", "}")
+      -- }) 
+      --  ..
+      -- pandoc.List({
+      --   -- pandoc.Para(pandoc.utils.blocks_to_inlines(div.content)),
+      --   pandoc.RawBlock("latex-merge", "}")
+      -- })
+        -- ..
+        -- pandoc.Para(pandoc.utils.blocks_to_inlines(div.content))
+        -- ..
+        -- pandoc.List({
+        --   pandoc.RawBlock("latex", "}")
+        -- })
+      -- .. pandoc.Para(div:walk({
+      --   Para = function (para)
+      --     return pandoc.Div(para.content)
+      --   end
+      -- }).content)
+      -- .. pandoc.List({
+      --   pandoc.RawBlock("latex", "}")
+      -- })
+
+      -- The second half of the content is the original figure, modified to be a wrapfigure
+      post_content = div:walk({
+        RawBlock = function (fig)
+          if fig.format:match("latex") then
+            -- Convert the figure environment to a wrapfigure
+            if fig.text:match("\\begin{figure}") then
+              fig.text = "\\begin{wrapfigure}{r}{\\imgwidth}"
+            elseif fig.text:match("\\end{figure}") then
+              fig.text = "\\end{wrapfigure}"
+            end
+          end
+          return fig
+        end
+      })
+
+      post_content.content:insert(1, pandoc.Plain(pre_content))
+
+      quarto.log.output("content:", post_content)
+      return post_content
+      -- quarto.log.output("Post content:", post_content)
+
+      -- return pandoc.Plain(pre_content .. post_content.content)
+        
+      end
+    end
+  })
+end
+
+--- Returns true if the element contains a child element that 
+--- satisfies the given predicate.
+--- @param element A pandoc element to test
+--- @param predicate A function that takes a child element and returns true or false
+function contains_element(element, predicate)
+  local result = false
+  element:walk({
+    Inline = function (inline)
+      if predicate(inline) then
+        result = true
+      end
+    end,
+    Block = function (block)
+      if predicate(block) then
+        result = true
+      end
+    end
+  })
+  return result
+end
+
+--- Return the final config, with defaults applied
+--- @param meta A table obtained from pandoc.meta
+function parse_config(meta)
+  config = merge_tables(simplify_meta(meta), DEFAULT_CONFIG)
+  if pandoc.utils.type(config.margin) == "string" then
+    -- Margin can be provided as a single value
+    config.margin = {
+      top = config.margin,
+      right = config.margin,
+      bottom = config.margin,
+      left = config.margin
+    }
+  end
+  return config
+end
+
+--- Takes a table from the pandoc metadata and simplifies all Inlines to strings
 function simplify_meta(meta)
     local result = {}
     for i, v in pairs(meta or {}) do
-        result[i] = pandoc.utils.stringify(v)
+        if pandoc.utils.type(v) == "Inlines" then
+            -- Simplify Inlines to strings
+            result[i] = pandoc.utils.stringify(v)
+        elseif pandoc.utils.type(v) == "table" then
+          -- Call recursively when encountering another table
+            result[i] = simplify_meta(v)
+        else
+            result[i] = v
+        end
     end
     return result
 end
