@@ -110,69 +110,70 @@ function find_image(el)
   return image
 end
 
+--- Converts a size string to a point value
+function size_to_pt(size)
+  if size:match("pt$") then
+    return tonumber(size:sub(1, -3))
+  elseif size:match("px$") then
+    return tonumber(size:sub(1, -3)) * 0.75
+  elseif size:match("%d+$") then
+    -- Assume pixels
+    return tonumber(size) * 0.75
+  elseif size:match("em$") then
+    return tonumber(size:sub(1, -3)) * 12
+  elseif size:match("ex$") then
+    return tonumber(size:sub(1, -3)) * 6
+  elseif size:match("cm$") then
+    return tonumber(size:sub(1, -3)) * 28.35
+  elseif size:match("mm$") then
+    return tonumber(size:sub(1, -3)) * 2.835
+  elseif size:match("in$") then
+    return tonumber(size:sub(1, -3)) * 72
+  else
+    error("Unknown size unit: " .. size)
+  end
+end
+
 function handle_tex(doc, config)
   quarto.doc.use_latex_package("wrapfig")
   quarto.doc.use_latex_package("calc")
 
   return doc:walk({
     Div = function (div)
-      -- Find the first div that contains an image and a figure environment
-      if contains_element(div, function (el)
-        return el.t == "Image"
-      end) and contains_element(div, function(el)
-        return el.t == "RawBlock" and el.text:match("begin{figure}")
-      end) then
-
-      -- The first half of the content is a copy of the entire figure definition into a savebox to measure its width
-      pre_content = pandoc.List({
-        pandoc.RawBlock("latex", "\\newsavebox{\\imgbox}"),
-        pandoc.RawBlock("latex", "\\sbox{\\imgbox}{"),
-        div,
-        pandoc.RawInline("latex", "}")
-      }) 
-      -- ..  pandoc.utils.blocks_to_inlines(div.content):walk({
-      --     RawInline = function (raw)
-      --       -- Remove double newlines
-      --       raw.text = raw.text:gsub("%s+", " ")
-      --       raw.text = raw.text:gsub("%%", "")
-      --       if raw.format == "latex-merge" then
-      --         raw.format = "latex"
-      --       end
-      --       return raw
-      --     end,
-      --     LineBreak = function (linebreak)
-      --       -- Remove line breaks
-      --       return pandoc.List({})
-      --     end
-      --   }) .. pandoc.List({
-      --   pandoc.RawInline("latex", "}")
-      -- })
-
-      -- The second half of the content is the original figure, modified to be a wrapfigure
-      post_content = div:walk({
-        RawBlock = function (fig)
-          if fig.format:match("latex") then
-            -- Convert the figure environment to a wrapfigure
-            if fig.text:match("\\begin{figure}") then
-              fig.text = "\\begin{wrapfigure}{r}{\\wd\\imgbox}"
-            elseif fig.text:match("\\end{figure}") then
-              fig.text = "\\end{wrapfigure}"
-            end
+      -- Extract the image width from the figure
+      local width = nil
+      local found_image = false
+      div:walk({
+        Image = function (img)
+          found_image = true
+          if img.attributes.width ~= nil then
+            width = size_to_pt(img.attributes.width)
+            quarto.log.output("Image size", width)
           end
-          return fig
         end
       })
-
-      -- post_content.content:insert(1, pandoc.Plain(pre_content))
-
-      quarto.log.output("content:", post_content)
-      -- return post_content
-      -- quarto.log.output("Post content:", post_content)
-
-      -- return pandoc.Plain(pre_content .. post_content.content)
-      return pre_content .. post_content.content
-        
+      if found_image == false then
+        -- Short-circuit if there is no image
+        return div
       end
+      if width == nil then
+        quarto.log.warning("textwrap 
+      end
+
+      -- The second half of the content is the original figure, modified to be a wrapfigure
+      return div:walk({
+        RawBlock = function (raw)
+          quarto.log.output("Found raw block", raw)
+          if raw.format:match("latex") then
+            if raw.text:match("\\begin{figure}") then
+              raw.text = string.format("\\begin{wrapfigure}{r}{%fpt}", width)
+            elseif raw.text:match("\\end{figure}") then
+              raw.text = "\\end{wrapfigure}"
+            end
+          end
+          return raw
+        end
+      })
     end
   })
 end
@@ -198,7 +199,7 @@ function contains_element(element, predicate)
   return result
 end
 
---- Return the final config, with defaults applied
+--- Return the final conraw, with defaults applied
 --- @param meta A table obtained from pandoc.meta
 function parse_config(meta)
   config = merge_tables(simplify_meta(meta), DEFAULT_CONFIG)
