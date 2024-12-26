@@ -123,11 +123,11 @@ function handle_tex(doc, config)
         return el.t == "RawBlock" and el.text:match("begin{figure}")
       end) then
 
-      -- The first half of the content is a copy of the entire figure definition into a settowidth to measure its width
+      -- The first half of the content is a copy of the entire figure definition into a savebox to measure its width
       pre_content = pandoc.List({
-        pandoc.RawInline("latex", "\\newlength{\\imgwidth}"),
-        pandoc.RawInline("latex", "\\settowidth{\\imgwidth}{"),
-        find_image(div),
+        pandoc.RawBlock("latex", "\\newsavebox{\\imgbox}"),
+        pandoc.RawBlock("latex", "\\sbox{\\imgbox}{"),
+        div,
         pandoc.RawInline("latex", "}")
       }) 
       -- ..  pandoc.utils.blocks_to_inlines(div.content):walk({
@@ -138,11 +138,6 @@ function handle_tex(doc, config)
       --       if raw.format == "latex-merge" then
       --         raw.format = "latex"
       --       end
-      --         -- return pandoc.RawInline("latex-merge", block.text)
-      --       -- if raw.format == "latex" thenVeeu
-      --       --   raw.format = "latex-merge"
-      --       --   -- return pandoc.RawInline("latex-merge", block.text)
-      --       -- end
       --       return raw
       --     end,
       --     LineBreak = function (linebreak)
@@ -151,25 +146,6 @@ function handle_tex(doc, config)
       --     end
       --   }) .. pandoc.List({
       --   pandoc.RawInline("latex", "}")
-      -- }) 
-      --  ..
-      -- pandoc.List({
-      --   -- pandoc.Para(pandoc.utils.blocks_to_inlines(div.content)),
-      --   pandoc.RawBlock("latex-merge", "}")
-      -- })
-        -- ..
-        -- pandoc.Para(pandoc.utils.blocks_to_inlines(div.content))
-        -- ..
-        -- pandoc.List({
-        --   pandoc.RawBlock("latex", "}")
-        -- })
-      -- .. pandoc.Para(div:walk({
-      --   Para = function (para)
-      --     return pandoc.Div(para.content)
-      --   end
-      -- }).content)
-      -- .. pandoc.List({
-      --   pandoc.RawBlock("latex", "}")
       -- })
 
       -- The second half of the content is the original figure, modified to be a wrapfigure
@@ -178,7 +154,7 @@ function handle_tex(doc, config)
           if fig.format:match("latex") then
             -- Convert the figure environment to a wrapfigure
             if fig.text:match("\\begin{figure}") then
-              fig.text = "\\begin{wrapfigure}{r}{\\imgwidth}"
+              fig.text = "\\begin{wrapfigure}{r}{\\wd\\imgbox}"
             elseif fig.text:match("\\end{figure}") then
               fig.text = "\\end{wrapfigure}"
             end
@@ -187,13 +163,14 @@ function handle_tex(doc, config)
         end
       })
 
-      post_content.content:insert(1, pandoc.Plain(pre_content))
+      -- post_content.content:insert(1, pandoc.Plain(pre_content))
 
       quarto.log.output("content:", post_content)
-      return post_content
+      -- return post_content
       -- quarto.log.output("Post content:", post_content)
 
       -- return pandoc.Plain(pre_content .. post_content.content)
+      return pre_content .. post_content.content
         
       end
     end
