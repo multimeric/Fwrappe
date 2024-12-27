@@ -1,0 +1,32 @@
+{{< lipsum 1 >}}
+
+:::{#fig-subfigures width=400 .wrap-left}
+<!-- Test for multiple subfigures when the outer figure is told to wrap -->
+![Subfigure 1](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg)
+![Subfigure 2](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg)
+
+Multiple subfigures when the outer figure has a `width` and is told to wrap
+:::
+
+{{< lipsum 1 >}}
+
+:::{#fig-subfigures-inner}
+<!-- Test for multiple subfigures when the outer figure is told to wrap -->
+![Subfigure 1](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg){.wrap-left width=400}
+![Subfigure 2](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg){.wrap-left width=400}
+
+Multiple subfigures when the inner figures have a `width` and are told to wrap
+:::
+
+{{< lipsum 1 >}}
+
+:::{layout-nrow=2}
+![Top left](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg){.wrap-left width=400}
+![Top right](https://live.staticflickr.com/3116/2295096211_1c641c008e_b.jpg){width=200 .wrap-right}
+![Bottom left](https://upload.wikimedia.org/wikipedia/commons/9/93/Phaseolus_vulgaris_white_beans%2C_witte_boon.jpg)
+![Bottom right](https://upload.wikimedia.org/wikipedia/commons/f/fe/Mung_bean_sprouts%2C_close-up.jpg)
+
+Multiple figures inside a div with 2 rows, each of which have a `width` and are told to wrap
+:::
+
+{{< lipsum 1 >}}
