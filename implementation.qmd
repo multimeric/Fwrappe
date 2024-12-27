@@ -1,4 +1,6 @@
-# General
+# Technical Implementation
+
+## General
 
 The main reason this plugin is needed is because in Quarto, adding attributes to an image doesn't apply them to the containing figure.
 For example:
@@ -8,12 +10,12 @@ For example:
 
 For this reason, this plugin has to run after `quarto`'s lua code, since this is what creates the figure div that we want to modify.
 
-# HTML
+## HTML
 
 Therefore, in HTML, we just have to find the figure Div and copy the `.wrap-XXX` class from its child Image back to itself.
 Then, the styling is provided by a stylesheet that we generate dynamically.
 
-# LaTeX
+## LaTeX
 
 In LaTeX, nothing is so simple.
 There is nothing like CSS, so instead we have to patch the `figure` environment into a `wrapfigure`, passing the appropriate options to it.
