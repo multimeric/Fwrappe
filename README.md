@@ -53,7 +53,7 @@ For the HTML format, you can optionally specify a figure width [the standard way
 However, for the LaTeX format, it is *mandatory* to provide a width.
 This is for various technical reasons explained [in the technical documentation](https://multimeric.github.io/Fwrappe/implementation.html).
 
-Note if you are using [figure divs](https://quarto.org/docs/authoring/figures.html#figure-divs) that the `width=` attribute must go on the image and not on the figure div when doing this. You can refer to 
+Note if you are using [figure divs](https://quarto.org/docs/authoring/figures.html#figure-divs) that the `width=` attribute must go on the image and not on the figure div when doing this. You can refer to [this source code](https://github.com/multimeric/Fwrappe/blob/main/examples/figure_div.qmd) and [its rendered copy](https://multimeric.github.io/Fwrappe/examples/figure_div.html) for help.
 
 ## Advanced Config
 
