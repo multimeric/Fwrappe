@@ -13,7 +13,7 @@ However, people often request this feature:
 It is possible to use a manual solution as described in the above issues.
 The reason Fwrappe is a better option is because:
 
-- Fwrappe supports both HTML and PDF formats
+- Fwrappe is portable to both HTML and PDF (LaTeX) formats
 - Fwrappe wraps entire figures instead of just images. This means that figure captions look correct
 - Fwrappe provides an auto-wrap feature so you don't need to modify each figure
 - You don't need to use or learn CSS and/or LaTeX yourself
@@ -52,6 +52,9 @@ You can also customize the extension using the `fwrappe` metadata key in your do
 This supports two different options: `auto` and `margin`.
 
 ### `margin`
+
+> [!NOTE]
+> `margin` is not currently supported for the LaTeX/PDF format. Instead, the figure will have a margin of `\intextsep` at the top, and `\columsep` at the sides
 
 Setting `margin` to CSS length specifier such as `10px` or `2em` will let you determine the size of the margin around a text-wrapped image. For example:
 ```
