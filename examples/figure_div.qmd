@@ -11,6 +11,7 @@ filters:
 
 ::: {#fig-green .wrap-left}
 ![](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg){width=200}
+
 `.wrap-left`
 :::
 
@@ -18,6 +19,7 @@ filters:
 
 :::{#fig-coffee .wrap-right}
 ![](https://live.staticflickr.com/3116/2295096211_1c641c008e_b.jpg){width=200}
+
 `.wrap-right`
 :::
 
@@ -25,6 +27,7 @@ filters:
 
 :::{#fig-white .wrap-left}
 ![](https://upload.wikimedia.org/wikipedia/commons/9/93/Phaseolus_vulgaris_white_beans%2C_witte_boon.jpg){width=200}
+
 `.wrap-left`
 :::
 

@@ -44,7 +44,7 @@ Then, you can add the `.wrap-left` or `.wrap-right` classes to your images, to m
 `.wrap-left` means "the figure will sit on the left of the page, and the text will wrap around it to the right".
 This is a little confusing, I realise.
 
-The end product will look [like this](https://multimeric.github.io/Fwrappe/example.html).
+The end product will look [like this](https://multimeric.github.io/Fwrappe/examples/example.html).
 
 ## Specifying Width
 
@@ -75,7 +75,7 @@ fwrappe:
 ---
 ```
 
-[Here's an example of this obscenely large margin](https://multimeric.github.io/Fwrappe/margin.html).
+[Here's an example of this obscenely large margin](https://multimeric.github.io/Fwrappe/examples/margin.html).
 
 You can also customize different parts of the margin by providing a dictionary with four keys:
 
@@ -90,7 +90,7 @@ fwrappe:
 ---
 ```
 
-[Here's an example where the bottom and right margins are wide, but the top and left margins are zero](https://multimeric.github.io/Fwrappe/complex_margin.html).
+[Here's an example where the bottom and right margins are wide, but the top and left margins are zero](https://multimeric.github.io/Fwrappe/examples/complex_margin.html).
 
 ### `auto`
 
@@ -103,4 +103,4 @@ fwrappe:
 ---
 ```
 You can disable this selectively by adding a `.nowrap` class to some images.
-This is demonstrated [in the following example](https://multimeric.github.io/Fwrappe/example.html).
+This is demonstrated [in the following example](https://multimeric.github.io/Fwrappe/examples/autowrap.html).
