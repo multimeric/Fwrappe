@@ -51,7 +51,7 @@ The end product will look [like this](https://multimeric.github.io/Fwrappe/examp
 For the HTML format, you can optionally specify a figure width [the standard way](https://quarto.org/docs/authoring/figures.html#figure-sizing), which will determine how much text can fit around it.
 
 However, for the LaTeX format, it is *mandatory* to provide a width.
-This is for various technical reasons explained [in the technical documentation].
+This is for various technical reasons explained [in the technical documentation](https://multimeric.github.io/Fwrappe/implementation.html).
 
 ## Advanced Config
 
