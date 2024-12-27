@@ -142,22 +142,29 @@ function handle_tex(doc, config)
     Div = function (div)
       -- Extract the image width from the figure
       local width = nil
-      local found_image = false
+      local found_images = 0
+      local direction = nil
       div:walk({
         Image = function (img)
-          found_image = true
+          found_images = found_images + 1 
           if img.attributes.width ~= nil then
             width = size_to_pt(img.attributes.width)
             quarto.log.output("Image size", width)
           end
+          if img.classes:includes("wrap-left") then
+            direction = "l"
+          elseif img.classes:includes("wrap-right") then
+            direction = "r"
+          end
         end
       })
-      if found_image == false then
-        -- Short-circuit if there is no image
+      if found_images ~= 1 or width == nil or direction == nil then
+        -- Short-circuit if there:
+        -- * is no image, because then this is probably a regular div and not a figure
+        -- * is no width defined for the image, because then we can't wrap it in LaTeX as wrapfig requires a width
+        -- * are multiple images, because either this div contains multiple figures, or because it's a multi-panel figure and this isn't yet supported
+        -- * was no direction class on the image
         return div
-      end
-      if width == nil then
-        quarto.log.warning("textwrap 
       end
 
       -- The second half of the content is the original figure, modified to be a wrapfigure
@@ -166,7 +173,7 @@ function handle_tex(doc, config)
           quarto.log.output("Found raw block", raw)
           if raw.format:match("latex") then
             if raw.text:match("\\begin{figure}") then
-              raw.text = string.format("\\begin{wrapfigure}{r}{%fpt}", width)
+              raw.text = string.format("\\begin{wrapfigure}{%s}{%fpt}", direction, width)
             elseif raw.text:match("\\end{figure}") then
               raw.text = "\\end{wrapfigure}"
             end
@@ -176,27 +183,6 @@ function handle_tex(doc, config)
       })
     end
   })
-end
-
---- Returns true if the element contains a child element that 
---- satisfies the given predicate.
---- @param element A pandoc element to test
---- @param predicate A function that takes a child element and returns true or false
-function contains_element(element, predicate)
-  local result = false
-  element:walk({
-    Inline = function (inline)
-      if predicate(inline) then
-        result = true
-      end
-    end,
-    Block = function (block)
-      if predicate(block) then
-        result = true
-      end
-    end
-  })
-  return result
 end
 
 --- Return the final conraw, with defaults applied
