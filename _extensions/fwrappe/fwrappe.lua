@@ -155,6 +155,10 @@ function handle_tex(doc, config)
             direction = "l"
           elseif img.classes:includes("wrap-right") then
             direction = "r"
+          elseif config.auto == "left" then
+            direction = "l"
+          elseif config.auto == "right" then
+            direction = "r"
           end
         end
       })
