@@ -63,24 +63,30 @@ This supports two different options: `auto` and `margin`.
 > [!NOTE]
 > `margin` is not currently supported for the LaTeX/PDF format. Instead, the figure will have a margin of `\intextsep` at the top, and `\columsep` at the sides
 
-Setting `margin` to CSS length specifier such as `10px` or `2em` will let you determine the size of the margin around a text-wrapped image. For example:
+
+The `margin` parameter can be set the the number of pixels to leave as a space around the text-wrapped image.
+For example:
 ```
 ---
 fwrappe:
-  margin: "200px"
+  margin: 200
 ---
 ```
 
 [Here's an example of this obscenely large margin](https://multimeric.github.io/Fwrappe/margin.html).
 
-You can also customize different parts of the margin [according to the CSS spec](https://developer.mozilla.org/en-US/docs/Web/CSS/margin#syntax):
+You can also customize different parts of the margin by providing a dictionary with four keys:
 
-> When one value is specified, it applies the same margin to all four sides.
-> When two values are specified, the first margin applies to the top and bottom, the second to the left and right.
-> When three values are specified, the first margin applies to the top, the second to the right and left, the third to the bottom.
-> When four values are specified, the margins apply to the top, right, bottom, and left in that order (clockwise).
-
-So `margin: "0px 10px 20px 30px"` will set the top, right, bottom and left margin sizes to 0, 10, 20 and 30 pixels respectively.
+```
+---
+fwrappe:
+  margin:
+    top: 0
+    right: 100
+    bottom: 100
+    left: 0
+---
+```
 
 [Here's an example where the bottom and right margins are wide, but the top and left margins are zero](https://multimeric.github.io/Fwrappe/complex_margin.html).
 
