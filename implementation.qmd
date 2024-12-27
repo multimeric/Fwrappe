@@ -4,8 +4,29 @@
 
 The main reason this plugin is needed is because in Quarto, adding attributes to an image doesn't apply them to the containing figure.
 For example:
+```markdown
+![Caption](image.jpg){.some-class}
 ```
-![Subfigure 2](https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg){.wrap-left width=400}
+Rendered to the pandoc AST:
+```bash
+quarto render test.md --to native
+```
+
+Produces:
+```
+Pandoc
+  Meta { unMeta = fromList [] }
+  [ Figure
+      ( "" , [] , [] )
+      (Caption Nothing [ Plain [ Str "Caption" ] ])
+      [ Plain
+          [ Image
+              ( "" , [ "some-class" ] , [] )
+              [ Str "Caption" ]
+              ( "image.jpg" , "" )
+          ]
+      ]
+  ]
 ```
 
 For this reason, this plugin has to run after `quarto`'s lua code, since this is what creates the figure div that we want to modify.
