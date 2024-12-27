@@ -137,6 +137,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./complex_margin.html"> 
 <span class="menu-text">Complex Margin Example</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./implementation.html"> 
+<span class="menu-text">Technical Implementation</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -157,7 +161,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="fwrappe---text-wrapping-around-figures-in-quarto" class="level1">
 <h1>Fwrappe - Text Wrapping around Figures in Quarto</h1>
-<p>Fwrappe (pronounced like the frappe drink, until I can work out how to pronounce <em>fwr</em>) is a <strong>F</strong>igure <strong>Wrappe</strong>r for Quarto.</p>
+<p>Fwrappe (pronounced like the frappe drink, probably) is a <strong>F</strong>igure <strong>Wrappe</strong>r for Quarto.</p>
 <section id="motivation" class="level2">
 <h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
 <p>Quarto HTML outputs don’t support wrapping text around figures. However, people often request this feature:</p>
@@ -165,7 +169,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="https://github.com/quarto-dev/quarto-cli/discussions/11053" class="uri">https://github.com/quarto-dev/quarto-cli/discussions/11053</a></li>
 <li><a href="https://forum.posit.co/t/picture-and-text-side-by-side-on-quarto/147682" class="uri">https://forum.posit.co/t/picture-and-text-side-by-side-on-quarto/147682</a></li>
 </ul>
-<p>Enter Fwrappe.</p>
+<p>It is possible to use a manual solution as described in the above issues. The reason Fwrappe is a better option is because:</p>
+<ul>
+<li>Fwrappe is portable to both HTML and PDF (LaTeX) formats</li>
+<li>Fwrappe wraps entire figures instead of just images. This means that figure captions look correct</li>
+<li>Fwrappe provides an auto-wrap feature so you don’t need to modify each figure</li>
+<li>You don’t need to use or learn CSS and/or LaTeX yourself</li>
+</ul>
 </section>
 <section id="installing" class="level2">
 <h2 class="anchored" data-anchor-id="installing">Installing</h2>
@@ -183,22 +193,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><code>.wrap-left</code> means “the figure will sit on the left of the page, and the text will wrap around it to the right”. This is a little confusing, I realise.</p>
 <p>The end product will look <a href="https://multimeric.github.io/Fwrappe/example.html">like this</a>.</p>
 </section>
+<section id="specifying-width" class="level2">
+<h2 class="anchored" data-anchor-id="specifying-width">Specifying Width</h2>
+<p>For the HTML format, you can optionally specify a figure width <a href="https://quarto.org/docs/authoring/figures.html#figure-sizing">the standard way</a>, which will determine how much text can fit around it.</p>
+<p>However, for the LaTeX format, it is <em>mandatory</em> to provide a width. This is for various technical reasons explained <a href="https://multimeric.github.io/Fwrappe/implementation.html">in the technical documentation</a>.</p>
+</section>
 <section id="advanced-config" class="level2">
 <h2 class="anchored" data-anchor-id="advanced-config">Advanced Config</h2>
 <p>You can also customize the extension using the <code>fwrappe</code> metadata key in your documents. This supports two different options: <code>auto</code> and <code>margin</code>.</p>
 <section id="margin" class="level3">
 <h3 class="anchored" data-anchor-id="margin"><code>margin</code></h3>
-<p>Setting <code>margin</code> to CSS length specifier such as <code>10px</code> or <code>2em</code> will let you determine the size of the margin around a text-wrapped image. For example:</p>
+<blockquote class="blockquote">
+<p>[!NOTE] <code>margin</code> is not currently supported for the LaTeX/PDF format. Instead, the figure will have a margin of <code>\intextsep</code> at the top, and <code>\columsep</code> at the sides</p>
+</blockquote>
+<p>The <code>margin</code> parameter can be set the the number of pixels to leave as a space around the text-wrapped image. For example:</p>
 <pre><code>---
 fwrappe:
-  margin: "200px"
+  margin: 200
 ---</code></pre>
 <p><a href="https://multimeric.github.io/Fwrappe/margin.html">Here’s an example of this obscenely large margin</a>.</p>
-<p>You can also customize different parts of the margin <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/margin#syntax">according to the CSS spec</a>:</p>
-<blockquote class="blockquote">
-<p>When one value is specified, it applies the same margin to all four sides. When two values are specified, the first margin applies to the top and bottom, the second to the left and right. When three values are specified, the first margin applies to the top, the second to the right and left, the third to the bottom. When four values are specified, the margins apply to the top, right, bottom, and left in that order (clockwise).</p>
-</blockquote>
-<p>So <code>margin: "0px 10px 20px 30px"</code> will set the top, right, bottom and left margin sizes to 0, 10, 20 and 30 pixels respectively.</p>
+<p>You can also customize different parts of the margin by providing a dictionary with four keys:</p>
+<pre><code>---
+fwrappe:
+  margin:
+    top: 0
+    right: 100
+    bottom: 100
+    left: 0
+---</code></pre>
 <p><a href="https://multimeric.github.io/Fwrappe/complex_margin.html">Here’s an example where the bottom and right margins are wide, but the top and left margins are zero</a>.</p>
 </section>
 <section id="auto" class="level3">

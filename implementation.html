@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Complex Margin Example – Fwrappe Docs</title>
+<title>implementation – Fwrappe Docs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -66,20 +100,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<style>
-  .quarto-figure.wrap {
-      margin-top: 0pt;
-      margin-right: 100pt;
-      margin-bottom: 100pt;
-      margin-left: 0pt;
-  }
-  .quarto-figure.wrap-left {
-      float: left;
-  }
-  .quarto-figure.wrap-right {
-      float: right;
-  }
-</style>
 
 
 </head>
@@ -114,11 +134,11 @@ ul.task-list li input[type="checkbox"] {
 <span class="menu-text">Custom Margin Example</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./complex_margin.html" aria-current="page"> 
+    <a class="nav-link" href="./complex_margin.html"> 
 <span class="menu-text">Complex Margin Example</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./implementation.html"> 
+    <a class="nav-link active" href="./implementation.html" aria-current="page"> 
 <span class="menu-text">Technical Implementation</span></a>
   </li>  
 </ul>
@@ -134,51 +154,52 @@ ul.task-list li input[type="checkbox"] {
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Complex Margin Example</h1>
-</div>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
-<div class="quarto-title-meta">
 
-    
-  
-    
-  </div>
-  
+<section id="technical-implementation" class="level1">
+<h1>Technical Implementation</h1>
+<section id="general" class="level2">
+<h2 class="anchored" data-anchor-id="general">General</h2>
+<p>The main reason this plugin is needed is because in Quarto, adding attributes to an image doesn’t apply them to the containing figure. For example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="al">![Caption](image.jpg)</span>{.some-class}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Rendered to the pandoc AST:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">quarto</span> render test.md <span class="at">--to</span> native</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Produces:</p>
+<pre><code>Pandoc
+  Meta { unMeta = fromList [] }
+  [ Figure
+      ( "" , [] , [] )
+      (Caption Nothing [ Plain [ Str "Caption" ] ])
+      [ Plain
+          [ Image
+              ( "" , [ "some-class" ] , [] )
+              [ Str "Caption" ]
+              ( "image.jpg" , "" )
+          ]
+      ]
+  ]</code></pre>
+<p>For this reason, this plugin has to run after <code>quarto</code>’s lua code, since this is what creates the figure div that we want to modify.</p>
+</section>
+<section id="html" class="level2">
+<h2 class="anchored" data-anchor-id="html">HTML</h2>
+<p>Therefore, in HTML, we just have to find the figure Div and copy the <code>.wrap-XXX</code> class from its child Image back to itself. Then, the styling is provided by a stylesheet that we generate dynamically.</p>
+</section>
+<section id="latex" class="level2">
+<h2 class="anchored" data-anchor-id="latex">LaTeX</h2>
+<p>In LaTeX, nothing is so simple. There is nothing like CSS, so instead we have to patch the <code>figure</code> environment into a <code>wrapfigure</code>, passing the appropriate options to it.</p>
+<p>The reason why a width must be provided is because none of the other approaches work well. I have tried the following:</p>
+<ul>
+<li>Using a <code>0pt</code> width for <code>wrapfigure</code>. In this case LaTeX is supposed to work out the width of the float. However, this seems to be completely inaccurate, and results in text overlapping the image.</li>
+<li>Measuring the width of the figure using <code>calc</code> or <code>savebox</code>. These can’t handle a floating environment such as a <code>figure</code>, and you get <code>Missing \endgroup inserted.</code></li>
+<li>Measuring the width of the image alone using <code>calc</code>. Unfortunately this doesn’t work either, because it measures the full width of the original image, not the image as it would be displayed. This is because we miss out on all the Quarto magic that is applied to the figure environment.</li>
+</ul>
 
 
-</header>
-
-
-<p>Proin sodales neque erat, varius cursus diam tincidunt sit amet. Etiam scelerisque fringilla nisl eu venenatis. Donec sem ipsum, scelerisque ac venenatis quis, hendrerit vel mauris. Praesent semper erat sit amet purus condimentum, sit amet auctor mi feugiat. In hac habitasse platea dictumst. Nunc ac mauris in massa feugiat bibendum id in dui. Praesent accumsan urna at lacinia aliquet. Proin ultricies eu est quis pellentesque. In vel lorem at nisl rhoncus cursus eu quis mi. In eu rutrum ante, quis placerat justo. Etiam euismod nibh nibh, sed elementum nunc imperdiet in. Praesent gravida nunc vel odio lacinia, at tempus nisl placerat. Aenean id ipsum sed est sagittis hendrerit non in tortor.</p>
-<div class="quarto-figure quarto-figure-center wrap wrap-left">
-<figure class="figure">
-<p><img src="https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg" class="wrap-left img-fluid figure-img" width="200"></p>
-<figcaption><code>.wrap-left</code></figcaption>
-</figure>
-</div>
-<p>Etiam congue quam eget velit convallis, eu sagittis orci vestibulum. Vestibulum at massa turpis. Curabitur ornare ex sed purus vulputate, vitae porta augue rhoncus. Phasellus auctor suscipit purus, vel ultricies nunc. Nunc eleifend nulla ac purus volutpat, id fringilla felis aliquet. Duis vitae porttitor nibh, in rhoncus risus. Vestibulum a est vitae est tristique vehicula. Proin mollis justo id est tempus hendrerit. Praesent suscipit placerat congue. Aliquam eu elit gravida, consequat augue non, ultricies sapien. Nunc ultricies viverra ante, sit amet vehicula ante volutpat id. Etiam tempus purus vitae tellus mollis viverra. Donec at ornare mauris. Aliquam sodales hendrerit ornare. Suspendisse accumsan lacinia sapien, sit amet imperdiet dui molestie ut.</p>
-<div class="quarto-figure quarto-figure-center wrap wrap-right">
-<figure class="figure">
-<p><img src="https://live.staticflickr.com/3116/2295096211_1c641c008e_b.jpg" class="wrap-right img-fluid figure-img" width="200"></p>
-<figcaption><code>.wrap-right</code></figcaption>
-</figure>
-</div>
-<p>Proin sodales neque erat, varius cursus diam tincidunt sit amet. Etiam scelerisque fringilla nisl eu venenatis. Donec sem ipsum, scelerisque ac venenatis quis, hendrerit vel mauris. Praesent semper erat sit amet purus condimentum, sit amet auctor mi feugiat. In hac habitasse platea dictumst. Nunc ac mauris in massa feugiat bibendum id in dui. Praesent accumsan urna at lacinia aliquet. Proin ultricies eu est quis pellentesque. In vel lorem at nisl rhoncus cursus eu quis mi. In eu rutrum ante, quis placerat justo. Etiam euismod nibh nibh, sed elementum nunc imperdiet in. Praesent gravida nunc vel odio lacinia, at tempus nisl placerat. Aenean id ipsum sed est sagittis hendrerit non in tortor.</p>
-<div class="quarto-figure quarto-figure-center wrap wrap-left">
-<figure class="figure">
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Phaseolus_vulgaris_white_beans%2C_witte_boon.jpg" class="wrap-left img-fluid figure-img" width="200"></p>
-<figcaption><code>.wrap-left</code></figcaption>
-</figure>
-</div>
-<p>Duis ornare ex ac iaculis pretium. Maecenas sagittis odio id erat pharetra, sit amet consectetur quam sollicitudin. Vivamus pharetra quam purus, nec sagittis risus pretium at. Nullam feugiat, turpis ac accumsan interdum, sem tellus blandit neque, id vulputate diam quam semper nisl. Donec sit amet enim at neque porttitor aliquet. Phasellus facilisis nulla eget placerat eleifend. Vestibulum non egestas eros, eget lobortis ipsum. Nulla rutrum massa eget enim aliquam, id porttitor erat luctus. Nunc sagittis quis eros eu sagittis. Pellentesque dictum, erat at pellentesque sollicitudin, justo augue pulvinar metus, quis rutrum est mi nec felis. Vestibulum efficitur mi lorem, at elementum purus tincidunt a. Aliquam finibus enim magna, vitae pellentesque erat faucibus at. Nulla mauris tellus, imperdiet id lobortis et, dignissim condimentum ipsum. Morbi nulla orci, varius at aliquet sed, facilisis id tortor. Donec ut urna nisi.</p>
-
-
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
