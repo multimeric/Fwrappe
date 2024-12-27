@@ -43,53 +43,27 @@ function handle_html(doc, config)
   local style = string.format(STYLES, config.margin.top, config.margin.right, config.margin.bottom, config.margin.left)
   quarto.doc.include_text("in-header", style)
 
-  -- Add the wrap class to images according to the auto parameter.
-  -- This seems redundant since we need to copy the wrap class to the figure element later.
-  -- However this simplifies the code paths
-  doc = doc:walk({
-    Image = function (img)
-      -- If nowrap is enabled and the image does not have the nowrap class, add the wrap class
-      if config.auto ~= nil and not img.classes:includes("nowrap") then
-        if config.auto == "left" then
-          img.classes:insert("wrap-left")
-        elseif config.auto == "right" then
-          img.classes:insert("wrap-right")
-        end
-      end
-      return img
-    end
-  })
-
-  -- Copy the wrap class from the image to the figure
-  -- This is the CSS that actually affects the layout
-  doc = doc:walk({
+  return doc:walk({
     Div = function (fig)
       if fig.classes:includes("quarto-figure") then
-        local wrap = false
-        pandoc.walk_block(fig, {
-          Image = function(img)
-            if img.classes:includes("wrap-left") then
-              wrap = "left"
-            elseif img.classes:includes("wrap-right") then
-              wrap = "right"
-            end
+        -- If autowrap is enabled, add the wrap class to the figure
+        if config.auto ~= nil and not fig.classes:includes("nowrap") then
+          if config.auto == "left" then
+            fig.classes:insert("wrap-left")
+          elseif config.auto == "right" then
+            fig.classes:insert("wrap-right")
           end
-        })
+        end
 
-        if wrap == "left" then
+        -- If the image has a wrap-* class, either user defined or added by autowrap, add the .wrap class
+        if fig.classes:includes("wrap-left") or fig.classes:includes("wrap-right") then
           fig.classes:insert("wrap")
-          fig.classes:insert("wrap-left")
-        elseif wrap == "right" then
-          fig.classes:insert("wrap")
-          fig.classes:insert("wrap-right")
         end
       end
 
       return fig
     end
   })
-
-  return doc
 end
 
 --- Finds a single Image nested within a given element

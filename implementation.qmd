@@ -1,40 +1,16 @@
-# Technical Implementation
-
-## General
-
-The main reason this plugin is needed is because in Quarto, adding attributes to an image doesn't apply them to the containing figure.
-For example:
-```markdown
-![Caption](image.jpg){.some-class}
-```
-Rendered to the pandoc AST:
-```bash
-quarto render test.md --to native
-```
-
-Produces:
-```
-Pandoc
-  Meta { unMeta = fromList [] }
-  [ Figure
-      ( "" , [] , [] )
-      (Caption Nothing [ Plain [ Str "Caption" ] ])
-      [ Plain
-          [ Image
-              ( "" , [ "some-class" ] , [] )
-              [ Str "Caption" ]
-              ( "image.jpg" , "" )
-          ]
-      ]
-  ]
-```
-
-For this reason, this plugin has to run after `quarto`'s lua code, since this is what creates the figure div that we want to modify.
+---
+title: Technical Implementation
+---
 
 ## HTML
 
-Therefore, in HTML, we just have to find the figure Div and copy the `.wrap-XXX` class from its child Image back to itself.
-Then, the styling is provided by a stylesheet that we generate dynamically.
+Little logic is needed for the HTML implementation.
+Fortunately, if an image has both a `#fig-` ID and a `.class` class, Quarto copies that class from the image to the figure div.
+
+Therefore, the only logic needed for the HTML is:
+- Implementing the margin via config rather than CSS
+- Implementing autowrap
+- Adding the `.wrap` class to things with the `.wrap-XXX` class, which is an implementation detail so that the layout logic isn't duplicated 
 
 ## LaTeX
 

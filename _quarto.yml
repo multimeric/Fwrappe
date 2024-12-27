@@ -5,9 +5,18 @@ website:
   title: "Fwrappe Docs"
   navbar:
     left:
-      - example.qmd
-      - autowrap.qmd
-      - margin.qmd
-      - complex_margin.qmd
+      - text: Examples
+        menu:
+        - examples/example.qmd
+        - examples/figure_div.qmd
+        - examples/autowrap.qmd
+        - examples/margin.qmd
+        - examples/complex_margin.qmd
       - implementation.qmd
+      - icon: github
+        menu:
+          - text: Source Code
+            href: https://github.com/multimeric/fwrappe
+          - text: Report a Bug
+            href: https://github.com/multimeric/Fwrappe/issues
 
