@@ -1,39 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://multimeric.github.io/Fwrappe/autowrap.html</loc>
-    <lastmod>2024-12-23T05:18:43.456Z</lastmod>
-  </url>
-  <url>
-    <loc>https://multimeric.github.io/Fwrappe/complex_margin.html</loc>
-    <lastmod>2024-12-23T11:56:46.285Z</lastmod>
-  </url>
-  <url>
-    <loc>https://multimeric.github.io/Fwrappe/index.html</loc>
-    <lastmod>2024-12-23T05:22:15.649Z</lastmod>
-  </url>
-  <url>
-    <loc>https://multimeric.github.io/Fwrappe/margin.html</loc>
-    <lastmod>2024-12-27T11:51:27.180Z</lastmod>
-  </url>
-  <url>
-    <loc>https://multimeric.github.io/Fwrappe/implementation.html</loc>
-    <lastmod>2024-12-27T12:11:40.347Z</lastmod>
-  </url>
-  <url>
-    <loc>https://multimeric.github.io/Fwrappe/example.html</loc>
-    <lastmod>2024-12-24T02:37:38.718Z</lastmod>
+    <loc>https://multimeric.github.io/Fwrappe/example_2.html</loc>
+    <lastmod>2024-12-27T11:51:28.252Z</lastmod>
   </url>
   <url>
     <loc>https://multimeric.github.io/Fwrappe/motivation.html</loc>
     <lastmod>2024-12-23T10:34:28.758Z</lastmod>
   </url>
   <url>
-    <loc>https://multimeric.github.io/Fwrappe/example_2.html</loc>
-    <lastmod>2024-12-27T11:51:28.252Z</lastmod>
+    <loc>https://multimeric.github.io/Fwrappe/examples/exotic_figures.html</loc>
+    <lastmod>2024-12-27T10:18:50.317Z</lastmod>
   </url>
   <url>
-    <loc>https://multimeric.github.io/Fwrappe/exotic_figures.html</loc>
-    <lastmod>2024-12-27T10:18:50.317Z</lastmod>
+    <loc>https://multimeric.github.io/Fwrappe/examples/margin.html</loc>
+    <lastmod>2024-12-27T11:51:27.180Z</lastmod>
+  </url>
+  <url>
+    <loc>https://multimeric.github.io/Fwrappe/examples/figure_div.html</loc>
+    <lastmod>2024-12-27T15:17:16.669Z</lastmod>
+  </url>
+  <url>
+    <loc>https://multimeric.github.io/Fwrappe/implementation/simple copy.html</loc>
+    <lastmod>2024-12-27T14:39:05.691Z</lastmod>
+  </url>
+  <url>
+    <loc>https://multimeric.github.io/Fwrappe/implementation/simple.html</loc>
+    <lastmod>2024-12-27T14:38:51.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://multimeric.github.io/Fwrappe/implementation.html</loc>
+    <lastmod>2024-12-27T15:08:15.015Z</lastmod>
+  </url>
+  <url>
+    <loc>https://multimeric.github.io/Fwrappe/implementation/div copy.html</loc>
+    <lastmod>2024-12-27T14:39:36.423Z</lastmod>
+  </url>
+  <url>
+    <loc>https://multimeric.github.io/Fwrappe/implementation/div.html</loc>
+    <lastmod>2024-12-27T14:41:21.411Z</lastmod>
+  </url>
+  <url>
+    <loc>https://multimeric.github.io/Fwrappe/examples/example.html</loc>
+    <lastmod>2024-12-27T14:56:30.445Z</lastmod>
+  </url>
+  <url>
+    <loc>https://multimeric.github.io/Fwrappe/examples/complex_margin.html</loc>
+    <lastmod>2024-12-23T11:56:46.285Z</lastmod>
+  </url>
+  <url>
+    <loc>https://multimeric.github.io/Fwrappe/examples/autowrap.html</loc>
+    <lastmod>2024-12-23T05:18:43.456Z</lastmod>
+  </url>
+  <url>
+    <loc>https://multimeric.github.io/Fwrappe/index.html</loc>
+    <lastmod>2024-12-23T05:22:15.649Z</lastmod>
   </url>
 </urlset>

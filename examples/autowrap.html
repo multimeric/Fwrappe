@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Technical Implementation – Fwrappe Docs</title>
+<title>Auto TextWrap Example – Fwrappe Docs</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,22 +23,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-34e8cbe6959ed7fbac4d5164e83b1532.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e26003cea8cd680ca0c55a263523d882.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-34e8cbe6959ed7fbac4d5164e83b1532.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -66,6 +66,20 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<style>
+  .quarto-figure.wrap {
+      margin-top: 30pt;
+      margin-right: 30pt;
+      margin-bottom: 30pt;
+      margin-left: 30pt;
+  }
+  .quarto-figure.wrap-left {
+      float: left;
+  }
+  .quarto-figure.wrap-right {
+      float: right;
+  }
+</style>
 
 
 </head>
@@ -77,7 +91,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Fwrappe Docs</span>
     </a>
   </div>
@@ -93,29 +107,29 @@ ul.task-list li input[type="checkbox"] {
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-examples">    
         <li>
-    <a class="dropdown-item" href="./examples/example.html">
+    <a class="dropdown-item" href="../examples/example.html">
  <span class="dropdown-text">TextWrap Example</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./examples/figure_div.html">
+    <a class="dropdown-item" href="../examples/figure_div.html">
  <span class="dropdown-text">Figure Div Example</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./examples/autowrap.html">
+    <a class="dropdown-item" href="../examples/autowrap.html">
  <span class="dropdown-text">Auto TextWrap Example</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./examples/margin.html">
+    <a class="dropdown-item" href="../examples/margin.html">
  <span class="dropdown-text">Custom Margin Example</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./examples/complex_margin.html">
+    <a class="dropdown-item" href="../examples/complex_margin.html">
  <span class="dropdown-text">Complex Margin Example</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link active" href="./implementation.html" aria-current="page"> 
+    <a class="nav-link" href="../implementation.html"> 
 <span class="menu-text">Technical Implementation</span></a>
   </li>  
   <li class="nav-item dropdown ">
@@ -152,7 +166,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Technical Implementation</h1>
+<h1 class="title">Auto TextWrap Example</h1>
 </div>
 
 
@@ -169,23 +183,30 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="html" class="level2">
-<h2 class="anchored" data-anchor-id="html">HTML</h2>
-<p>Little logic is needed for the HTML implementation. Fortunately, if an image has both a <code>#fig-</code> ID and a <code>.class</code> class, Quarto copies that class from the image to the figure div.</p>
-<p>Therefore, the only logic needed for the HTML is: - Implementing the margin via config rather than CSS - Implementing autowrap - Adding the <code>.wrap</code> class to things with the <code>.wrap-XXX</code> class, which is an implementation detail so that the layout logic isn’t duplicated</p>
-</section>
-<section id="latex" class="level2">
-<h2 class="anchored" data-anchor-id="latex">LaTeX</h2>
-<p>In LaTeX, nothing is so simple. There is nothing like CSS, so instead we have to patch the <code>figure</code> environment into a <code>wrapfigure</code>, passing the appropriate options to it.</p>
-<p>The reason why a width must be provided is because none of the other approaches work well. I have tried the following:</p>
-<ul>
-<li>Using a <code>0pt</code> width for <code>wrapfigure</code>. In this case LaTeX is supposed to work out the width of the float. However, this seems to be completely inaccurate, and results in text overlapping the image.</li>
-<li>Measuring the width of the figure using <code>calc</code> or <code>savebox</code>. These can’t handle a floating environment such as a <code>figure</code>, and you get <code>Missing \endgroup inserted.</code></li>
-<li>Measuring the width of the image alone using <code>calc</code>. Unfortunately this doesn’t work either, because it measures the full width of the original image, not the image as it would be displayed. This is because we miss out on all the Quarto magic that is applied to the figure environment.</li>
-</ul>
+<p>Maecenas turpis velit, ultricies non elementum vel, luctus nec nunc. Nulla a diam interdum, faucibus sapien viverra, finibus metus. Donec non tortor diam. In ut elit aliquet, bibendum sem et, aliquam tortor. Donec congue, sem at rhoncus ultrices, nunc augue cursus erat, quis porttitor mauris libero ut ex. Nullam quis leo urna. Donec faucibus ligula eget pellentesque interdum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean rhoncus interdum erat ut ultricies. Aenean tempus ex non elit suscipit, quis dignissim enim efficitur. Proin laoreet enim massa, vitae laoreet nulla mollis quis.</p>
+<div class="quarto-figure quarto-figure-center wrap-left wrap">
+<figure class="figure">
+<p><img src="https://live.staticflickr.com/5042/5362356515_9d782e74f6_b.jpg" class="img-fluid figure-img" width="200"></p>
+<figcaption>No Class</figcaption>
+</figure>
+</div>
+<p>Etiam non efficitur urna, quis elementum nisi. Mauris posuere a augue vel gravida. Praesent luctus erat et ex iaculis interdum. Nulla vestibulum quam ac nunc consequat vulputate. Nullam iaculis lobortis sem sit amet fringilla. Aliquam semper, metus ut blandit semper, nulla velit fermentum sapien, fermentum ultrices dolor sapien sed leo. Vestibulum molestie faucibus magna, at feugiat nulla ullamcorper a. Aliquam erat volutpat. Praesent scelerisque magna a justo maximus, sit amet suscipit mauris tempor. Nulla nec dolor eget ipsum pellentesque lobortis a in ipsum. Morbi turpis turpis, fringilla a eleifend maximus, viverra nec neque. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+<div class="quarto-figure quarto-figure-center wrap-left wrap">
+<figure class="figure">
+<p><img src="https://live.staticflickr.com/3116/2295096211_1c641c008e_b.jpg" class="nowrap img-fluid figure-img" width="200"></p>
+<figcaption><code>.nowrap</code> Class</figcaption>
+</figure>
+</div>
+<p>Duis urna urna, pellentesque eu urna ut, malesuada bibendum dolor. Suspendisse potenti. Vivamus ornare, arcu quis molestie ultrices, magna est accumsan augue, auctor vulputate erat quam quis neque. Nullam scelerisque odio vel ultricies facilisis. Ut porta arcu non magna sagittis lacinia. Cras ornare vulputate lectus a tristique. Pellentesque ac arcu congue, rhoncus mi id, dignissim ligula.</p>
+<div class="quarto-figure quarto-figure-center wrap-left wrap">
+<figure class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Phaseolus_vulgaris_white_beans%2C_witte_boon.jpg" class="img-fluid figure-img" width="200"></p>
+<figcaption>No Class</figcaption>
+</figure>
+</div>
+<p>Nulla eget cursus ipsum. Vivamus porttitor leo diam, sed volutpat lectus facilisis sit amet. Maecenas et pulvinar metus. Ut at dignissim tellus. In in tincidunt elit. Etiam vulputate lobortis arcu, vel faucibus leo lobortis ac. Aliquam erat volutpat. In interdum orci ac est euismod euismod. Nunc eleifend tristique risus, at lacinia odio commodo in. Sed aliquet ligula odio, sed tempor neque ultricies sit amet.</p>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
