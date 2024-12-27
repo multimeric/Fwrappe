@@ -136,7 +136,6 @@ end
 
 function handle_tex(doc, config)
   quarto.doc.use_latex_package("wrapfig")
-  quarto.doc.use_latex_package("calc")
 
   return doc:walk({
     Div = function (div)
